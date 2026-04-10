@@ -38,4 +38,7 @@ public class Orders {
 
     @Column(precision = 10, scale = 2)
     private BigDecimal tip;
+
+    @OneToOne(mappedBy = "order")
+    private OrderItems orderItems;
 }
