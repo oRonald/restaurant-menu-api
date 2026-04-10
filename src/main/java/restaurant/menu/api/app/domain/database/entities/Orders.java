@@ -27,6 +27,9 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @Column(nullable = false)
+    private Integer quantity;
+
     @Column(insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
