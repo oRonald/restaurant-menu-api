@@ -18,3 +18,6 @@ spring:
         host: localhost
         port: 6379
         password: ${REDIS_RESTAURANT_PASS}
+
+app:
+  internal-api-key: ${RESTAURANT_INTERNAL_API_KEY}
