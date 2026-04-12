@@ -11,12 +11,14 @@ import restaurant.menu.api.app.domain.database.entities.Orders;
 import restaurant.menu.api.app.domain.database.entities.enums.OrderStatus;
 import restaurant.menu.api.app.domain.database.repositories.MenuRepository;
 import restaurant.menu.api.app.domain.database.repositories.OrderRepository;
+import restaurant.menu.api.app.domain.dto.ItemsDetails;
 import restaurant.menu.api.app.domain.dto.OrderDetails;
 import restaurant.menu.api.app.domain.dto.OrderRequest;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -71,5 +73,10 @@ public class PublicService {
 
         orderRepository.save(order);
         return new OrderDetails(order, serviceCharge);
+    }
+
+    public List<ItemsDetails> getAllMenuItems(){
+        List<Menu> menuItems = menuRepository.findAll();
+        return menuItems.stream().map(ItemsDetails::new).toList();
     }
 }
