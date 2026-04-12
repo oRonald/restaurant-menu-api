@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.RoleNotFoundException;
 
 import java.time.LocalDateTime;
@@ -23,5 +24,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ExceptionTemplate> handleRoleNotFound(RoleNotFoundException ex){
         return templateExceptionMessage(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ExistingTableOrderException.class)
+    public ResponseEntity<ExceptionTemplate> handleExistingTableOrderException(ExistingTableOrderException ex){
+        return templateExceptionMessage(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

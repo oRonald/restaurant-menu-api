@@ -1,10 +1,15 @@
 package restaurant.menu.api.app.domain.database.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
+@Getter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "menu")

@@ -1,10 +1,18 @@
 package restaurant.menu.api.app.domain.database.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import restaurant.menu.api.app.domain.database.entities.enums.OrderStatus;
+import restaurant.menu.api.app.domain.dto.OrderRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "orders")
@@ -39,6 +47,20 @@ public class Orders {
     @Column(precision = 10, scale = 2)
     private BigDecimal tip;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private OrderItems orderItems;
+
+    public Orders(OrderRequest request){
+        this.tableNumber = request.tableNumber();
+        int random = (int) (Math.random() * 900) + 100;
+        this.orderId = String.valueOf(tableNumber + random);
+        this.status = OrderStatus.PENDING;
+        this.quantity = request.quantity();
+        this.tip = request.tip();
+    }
+
+    public void addTotalPrice(BigDecimal price, BigDecimal tip, int quantity, BigDecimal serviceCharge) {
+        this.total = price.multiply(BigDecimal.valueOf(quantity)).add(tip).add(serviceCharge);
+    }
+
 }
