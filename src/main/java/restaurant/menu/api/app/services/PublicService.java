@@ -14,6 +14,7 @@ import restaurant.menu.api.app.domain.database.repositories.OrderRepository;
 import restaurant.menu.api.app.domain.dto.ItemsDetails;
 import restaurant.menu.api.app.domain.dto.OrderDetails;
 import restaurant.menu.api.app.domain.dto.OrderRequest;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.DishNotFoundException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
 
 import java.math.BigDecimal;
@@ -29,8 +30,7 @@ public class PublicService {
 
     @Transactional
     public OrderDetails createOrder(@Valid OrderRequest request){
-        Menu menu = menuRepository.findById(request.menuItem()).orElseThrow(() -> new IllegalArgumentException("O item do menu com ID " + request.menuItem() + " não existe."));
-
+        Menu menu = menuRepository.searchByName(request.menuItem()).orElseThrow(() -> new DishNotFoundException("O prato solicitado não foi encontrado no menu. Por favor, verifique o nome do prato e tente novamente."));
         Orders orderExisting = orderRepository.findByTableNumber(request.tableNumber());
 
         if(orderExisting != null && orderExisting.getStatus() != OrderStatus.DELIVERED && orderExisting.getStatus() != OrderStatus.CANCELLED){
