@@ -2,6 +2,7 @@ package restaurant.menu.api.app.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import restaurant.menu.api.app.domain.dto.ActiveOrders;
 import restaurant.menu.api.app.domain.dto.LoginEmployee;
@@ -39,5 +40,12 @@ public class EmployeeController {
     @GetMapping("/orders/active")
     public ResponseEntity<List<ActiveOrders>> getAllActiveOrders(){
         return ResponseEntity.ok(ordersService.findAllOrderActive());
+    }
+
+    @PatchMapping("/orders/{orderId}/ready")
+    @PreAuthorize("hasAnyRole('CHEF', 'MANAGER')")
+    public ResponseEntity<Void> changeOrderStatusToReady(@PathVariable String orderId){
+        ordersService.changeOrderStatusToReady(orderId);
+        return ResponseEntity.noContent().build();
     }
 }
