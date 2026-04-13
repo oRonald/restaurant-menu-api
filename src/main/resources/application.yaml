@@ -1,6 +1,16 @@
 spring:
   application:
     name: app
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+        group-id: restaurant-group
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        auto-offset-reset: earliest
   datasource:
     url: jdbc:mysql://localhost:3306/${MYSQL_RESTAURANT_DB}
     username: ${MYSQL_RESTAURANT_USER}
