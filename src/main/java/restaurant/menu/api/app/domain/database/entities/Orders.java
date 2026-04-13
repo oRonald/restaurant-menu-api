@@ -26,6 +26,9 @@ public class Orders {
     private String orderId;
 
     @Column(nullable = false)
+    private String customerName;
+
+    @Column(nullable = false)
     private Integer tableNumber;
 
     @Column(nullable = false, precision = 10, scale = 2)
@@ -52,6 +55,7 @@ public class Orders {
 
     public Orders(OrderRequest request){
         this.tableNumber = request.tableNumber();
+        this.customerName = request.customerName();
         int random = (int) (Math.random() * 900) + 100;
         this.orderId = String.valueOf(tableNumber + random);
         this.status = OrderStatus.PENDING;

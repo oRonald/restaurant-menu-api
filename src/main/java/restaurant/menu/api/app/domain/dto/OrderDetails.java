@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public record OrderDetails(
             Integer mesa,
+            String cliente,
             String item,
             Integer quantidade,
             BigDecimal total,
@@ -15,7 +16,7 @@ public record OrderDetails(
             String mensagem
 ) {
     public OrderDetails(Orders order, BigDecimal serviceCharge){
-        this(order.getTableNumber(), order.getOrderItems().getMenuItems().getName(), order.getQuantity(), order.getTotal(),
+        this(order.getTableNumber(), order.getCustomerName(), order.getOrderItems().getMenuItems().getName(), order.getQuantity(), order.getTotal(),
                 order.getTip(), serviceCharge, "O valor total é calculado junto com a gorjeta, taxa de serviço e impostos");
     }
 }

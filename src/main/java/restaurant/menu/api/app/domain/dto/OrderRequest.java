@@ -14,6 +14,10 @@ public record OrderRequest(
 
         @NotNull
         @NotBlank
+        String customerName,
+
+        @NotNull
+        @NotBlank
         String menuItem,
 
         @NotNull
