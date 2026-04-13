@@ -23,6 +23,7 @@ public class JWTImplementation {
             return JWT.create()
                     .withIssuer("API Restaurant")
                     .withSubject(user.getUsername())
+                    .withClaim("role", user.getRole().name())
                     .withExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS)
                             .atOffset(ZoneOffset.of("-03:00")).toInstant())
                     .sign(algorithm);
