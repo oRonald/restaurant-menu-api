@@ -16,6 +16,7 @@ import restaurant.menu.api.app.domain.dto.OrderDetails;
 import restaurant.menu.api.app.domain.dto.OrderRequest;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.DishNotFoundException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
+import restaurant.menu.api.app.infrastructure.kafka.OrderProducer;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,6 +28,7 @@ public class PublicService {
 
     private final OrderRepository orderRepository;
     private final MenuRepository menuRepository;
+    private final OrderProducer orderProducer;
 
     @Transactional
     public OrderDetails createOrder(@Valid OrderRequest request){
@@ -71,7 +73,9 @@ public class PublicService {
             order.setTip(BigDecimal.ZERO);
         }
 
-        orderRepository.save(order);
+        String orderId = orderRepository.save(order).getOrderId();
+        orderProducer.publish(orderId);
+
         return new OrderDetails(order, serviceCharge);
     }
 

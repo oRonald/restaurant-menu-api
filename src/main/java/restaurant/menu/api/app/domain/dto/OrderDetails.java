@@ -10,13 +10,12 @@ public record OrderDetails(
             String item,
             Integer quantidade,
             BigDecimal total,
-            String status,
             BigDecimal gorjeta,
             BigDecimal taxaServico,
             String mensagem
 ) {
     public OrderDetails(Orders order, BigDecimal serviceCharge){
         this(order.getTableNumber(), order.getOrderItems().getMenuItems().getName(), order.getQuantity(), order.getTotal(),
-                order.getStatus().name(), order.getTip(), serviceCharge, "O valor total é calculado junto com a gorjeta, taxa de serviço e impostos");
+                order.getTip(), serviceCharge, "O valor total é calculado junto com a gorjeta, taxa de serviço e impostos");
     }
 }
