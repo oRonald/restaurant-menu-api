@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.DishNotFoundException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.OrderNotFoundException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.RoleNotFoundException;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DishNotFoundException.class)
     public ResponseEntity<ExceptionTemplate> handleDishNotFound(DishNotFoundException e){
+        return templateExceptionMessage(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ExceptionTemplate> handleOrderNotFound(OrderNotFoundException e){
         return templateExceptionMessage(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -2,7 +2,6 @@ package restaurant.menu.api.app.services;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import restaurant.menu.api.app.domain.database.entities.Menu;
@@ -17,6 +16,7 @@ import restaurant.menu.api.app.domain.dto.OrderDetails;
 import restaurant.menu.api.app.domain.dto.OrderRequest;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.DishNotFoundException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.OrderNotFoundException;
 import restaurant.menu.api.app.infrastructure.kafka.OrderProducer;
 
 import java.math.BigDecimal;
@@ -87,6 +87,9 @@ public class PublicService {
 
     public ActiveOrders getOrderByTableNumber(Integer tableNumber, String customer){
         Orders order = orderRepository.findByTableNumberAndCustomerNameContainingAndStatus(tableNumber, customer, OrderStatus.IN_PROGRESS);
+        if(order == null){
+            throw new OrderNotFoundException("Não foi encontrado um pedido em andamento para a mesa " + tableNumber + " e cliente " + customer + ". Por favor, verifique as informações e tente novamente.");
+        }
         return new ActiveOrders(order);
     }
 }
