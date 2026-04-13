@@ -34,8 +34,8 @@ public class PublicController {
         return ResponseEntity.ok(service.getAllMenuItems());
     }
 
-    @GetMapping("/orders/{tableNumber}")
-    public ResponseEntity<ActiveOrders> getOrderByTableNumber(@PathVariable Integer tableNumber){
-        return ResponseEntity.ok(service.getOrderByTableNumber(tableNumber));
+    @GetMapping("/orders/{tableNumber}/{customer}")
+    public ResponseEntity<ActiveOrders> getOrderByTableNumber(@PathVariable Integer tableNumber, @PathVariable String customer){
+        return ResponseEntity.ok(service.getOrderByTableNumber(tableNumber, customer));
     }
 }

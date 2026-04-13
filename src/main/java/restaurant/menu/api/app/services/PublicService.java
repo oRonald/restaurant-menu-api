@@ -85,8 +85,8 @@ public class PublicService {
         return menuItems.stream().map(ItemsDetails::new).toList();
     }
 
-    public ActiveOrders getOrderByTableNumber(Integer tableNumber){
-        Orders order = orderRepository.findByTableNumberAndStatus(tableNumber, OrderStatus.IN_PROGRESS);
+    public ActiveOrders getOrderByTableNumber(Integer tableNumber, String customer){
+        Orders order = orderRepository.findByTableNumberAndCustomerNameContainingAndStatus(tableNumber, customer, OrderStatus.IN_PROGRESS);
         return new ActiveOrders(order);
     }
 }

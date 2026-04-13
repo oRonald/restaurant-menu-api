@@ -20,5 +20,5 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     @Query("SELECT o FROM Orders o JOIN FETCH o.orderItems WHERE o.status = 'IN_PROGRESS'")
     List<Orders> findAllByStatusInProgress();
 
-    Orders findByTableNumberAndStatus(Integer tableNumber, OrderStatus status);
+    Orders findByTableNumberAndCustomerNameContainingAndStatus(Integer tableNumber, String customer, OrderStatus status);
 }

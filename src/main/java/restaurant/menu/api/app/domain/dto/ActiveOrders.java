@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record ActiveOrders(
+        String cliente,
         String numeroPedido,
         String item,
         Integer mesa,
@@ -21,6 +22,7 @@ public record ActiveOrders(
 ) {
     public ActiveOrders(Orders order){
         this(
+                order.getCustomerName(),
                 order.getOrderId(),
                 order.getOrderItems().getMenuItems().getName(),
                 order.getTableNumber(),
