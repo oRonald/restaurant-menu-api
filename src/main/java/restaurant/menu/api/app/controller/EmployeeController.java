@@ -3,7 +3,9 @@ package restaurant.menu.api.app.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import restaurant.menu.api.app.domain.dto.LoginEmployee;
 import restaurant.menu.api.app.domain.dto.RegisterEmployeeRequest;
+import restaurant.menu.api.app.domain.dto.TokenJWT;
 import restaurant.menu.api.app.services.EmployeeService;
 
 @RestController
@@ -20,5 +22,11 @@ public class EmployeeController {
     public ResponseEntity<Void> registerNewEmployee(@RequestBody RegisterEmployeeRequest request) {
         service.registerNewEmployee(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenJWT> loginEmployee(@RequestBody LoginEmployee login){
+        var token = service.loginEmployee(login);
+        return ResponseEntity.ok(new TokenJWT(token));
     }
 }

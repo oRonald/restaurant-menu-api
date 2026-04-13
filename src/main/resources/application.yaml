@@ -21,3 +21,8 @@ spring:
 
 app:
   internal-api-key: ${RESTAURANT_INTERNAL_API_KEY}
+
+api:
+  security:
+    jwt:
+      secret: ${TOKEN_SECRET}
