@@ -4,6 +4,7 @@ import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import restaurant.menu.api.app.domain.dto.ActiveOrders;
 import restaurant.menu.api.app.domain.dto.ItemsDetails;
 import restaurant.menu.api.app.domain.dto.OrderDetails;
 import restaurant.menu.api.app.domain.dto.OrderRequest;
@@ -31,5 +32,10 @@ public class PublicController {
     @GetMapping("/menu")
     public ResponseEntity<List<ItemsDetails>> getAllMenuItems(){
         return ResponseEntity.ok(service.getAllMenuItems());
+    }
+
+    @GetMapping("/orders/{tableNumber}")
+    public ResponseEntity<ActiveOrders> getOrderByTableNumber(@PathVariable Integer tableNumber){
+        return ResponseEntity.ok(service.getOrderByTableNumber(tableNumber));
     }
 }

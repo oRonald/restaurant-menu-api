@@ -11,6 +11,7 @@ import restaurant.menu.api.app.domain.database.entities.Orders;
 import restaurant.menu.api.app.domain.database.entities.enums.OrderStatus;
 import restaurant.menu.api.app.domain.database.repositories.MenuRepository;
 import restaurant.menu.api.app.domain.database.repositories.OrderRepository;
+import restaurant.menu.api.app.domain.dto.ActiveOrders;
 import restaurant.menu.api.app.domain.dto.ItemsDetails;
 import restaurant.menu.api.app.domain.dto.OrderDetails;
 import restaurant.menu.api.app.domain.dto.OrderRequest;
@@ -82,5 +83,10 @@ public class PublicService {
     public List<ItemsDetails> getAllMenuItems(){
         List<Menu> menuItems = menuRepository.findAll();
         return menuItems.stream().map(ItemsDetails::new).toList();
+    }
+
+    public ActiveOrders getOrderByTableNumber(Integer tableNumber){
+        Orders order = orderRepository.findByTableNumberAndStatus(tableNumber, OrderStatus.IN_PROGRESS);
+        return new ActiveOrders(order);
     }
 }
