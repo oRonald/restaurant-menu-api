@@ -4,11 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import restaurant.menu.api.app.domain.dto.ActiveOrders;
-import restaurant.menu.api.app.domain.dto.LoginEmployee;
-import restaurant.menu.api.app.domain.dto.RegisterEmployeeRequest;
-import restaurant.menu.api.app.domain.dto.TokenJWT;
+import restaurant.menu.api.app.domain.dto.*;
 import restaurant.menu.api.app.services.EmployeeService;
+import restaurant.menu.api.app.services.MenuService;
 import restaurant.menu.api.app.services.OrdersService;
 
 import java.util.List;
@@ -19,10 +17,12 @@ public class EmployeeController {
 
     private final EmployeeService service;
     private final OrdersService ordersService;
+    private final MenuService menuService;
 
-    public EmployeeController(EmployeeService service, OrdersService ordersService) {
+    public EmployeeController(EmployeeService service, OrdersService ordersService, MenuService menuService) {
         this.service = service;
         this.ordersService = ordersService;
+        this.menuService = menuService;
     }
 
     @PostMapping("/admin/register")
@@ -61,5 +61,12 @@ public class EmployeeController {
     public ResponseEntity<Void> deliveredOrder(@PathVariable String orderId){
         ordersService.deliveredOrder(orderId);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/menu/{itemId}/disable")
+    @PreAuthorize("hasRole('MANAGER')")
+    public ResponseEntity<ItemsDetails> disableMenuItem(@PathVariable Long itemId){
+        var item = menuService.disableMenuItem(itemId);
+        return ResponseEntity.ok(item);
     }
 }

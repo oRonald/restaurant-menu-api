@@ -38,4 +38,8 @@ public class Menu {
 
     @OneToMany(mappedBy = "menuItems")
     private List<OrderItems> orderItems;
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

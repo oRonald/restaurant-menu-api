@@ -49,4 +49,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionTemplate> handleOrderErrorException(OrderErrorException e){
         return templateExceptionMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MenuItemNotFoundException.class)
+    public ResponseEntity<ExceptionTemplate> handleMenuItemNotFoundException(MenuItemNotFoundException e){
+        return templateExceptionMessage(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MenuItemException.class)
+    public ResponseEntity<ExceptionTemplate> handleMenuItemException(MenuItemException e){
+        return templateExceptionMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
