@@ -55,4 +55,11 @@ public class EmployeeController {
         ordersService.cancelOrder(orderId);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/orders/{orderId}/delivered")
+    @PreAuthorize("hasAnyRole('WAITER', 'MANAGER')")
+    public ResponseEntity<Void> deliveredOrder(@PathVariable String orderId){
+        ordersService.deliveredOrder(orderId);
+        return ResponseEntity.noContent().build();
+    }
 }

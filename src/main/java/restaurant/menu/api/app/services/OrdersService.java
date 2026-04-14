@@ -47,4 +47,17 @@ public class OrdersService {
         }
         orderRepository.updateOrderStatusToCancelled(orderId);
     }
+
+    @Transactional
+    public void deliveredOrder(String orderId){
+        if(!orderRepository.existsByOrderId(orderId)){
+            throw new OrderNotFoundException("O pedido " + orderId + " não foi encontrado.");
+        }
+
+        if(orderRepository.existsByOrderIdAndStatus(orderId, OrderStatus.DELIVERED) | !orderRepository.existsByOrderIdAndStatus(orderId, OrderStatus.READY) | orderRepository.existsByOrderIdAndStatus(orderId, OrderStatus.CANCELLED)){
+            throw new OrderErrorException("O pedido " + orderId + " já foi entregue ou não está pronto ou foi cancelado.");
+        }
+
+        orderRepository.updateStatusDeliveredByOrderId(OrderStatus.DELIVERED, orderId);
+    }
 }

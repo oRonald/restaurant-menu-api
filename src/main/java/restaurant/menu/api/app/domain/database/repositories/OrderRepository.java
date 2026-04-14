@@ -35,4 +35,9 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     boolean existsByOrderId(String orderId);
 
     boolean existsByOrderIdAndStatus(String orderId, OrderStatus status);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Orders o SET o.status = :status WHERE o.orderId = :orderId AND o.status = 'READY'")
+    void updateStatusDeliveredByOrderId(OrderStatus status, String orderId);
 }
