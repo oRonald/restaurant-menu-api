@@ -4,10 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.DishNotFoundException;
-import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.ExistingTableOrderException;
-import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.OrderNotFoundException;
-import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.RoleNotFoundException;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.*;
 
 import java.time.LocalDateTime;
 
@@ -41,5 +38,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ExceptionTemplate> handleOrderNotFound(OrderNotFoundException e){
         return templateExceptionMessage(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CancellationOrderNotPossibleException.class)
+    public ResponseEntity<ExceptionTemplate> handleCancellationOrderNotPossibleException(CancellationOrderNotPossibleException e){
+        return templateExceptionMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

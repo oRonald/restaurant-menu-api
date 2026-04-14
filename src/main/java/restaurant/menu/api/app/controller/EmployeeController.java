@@ -48,4 +48,11 @@ public class EmployeeController {
         ordersService.changeOrderStatusToReady(orderId);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/orders/{orderId}/cancel")
+    @PreAuthorize("hasRole('MANAGER')")
+    public ResponseEntity<Void> cancelOrder(@PathVariable String orderId){
+        ordersService.cancelOrder(orderId);
+        return ResponseEntity.noContent().build();
+    }
 }

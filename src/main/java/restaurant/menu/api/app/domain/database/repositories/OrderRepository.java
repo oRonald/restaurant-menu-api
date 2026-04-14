@@ -26,4 +26,13 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     List<Orders> findAllByStatusInProgress();
 
     Orders findByTableNumberAndCustomerNameContainingAndStatus(Integer tableNumber, String customer, OrderStatus status);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Orders o SET o.status = 'CANCELLED' WHERE o.orderId = :orderId AND o.status != 'READY' AND o.status != 'DELIVERED'")
+    void updateOrderStatusToCancelled(String orderId);
+
+    boolean existsByOrderId(String orderId);
+
+    Orders findByOrderId(String orderId);
 }
