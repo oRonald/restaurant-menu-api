@@ -44,4 +44,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionTemplate> handleCancellationOrderNotPossibleException(CancellationOrderNotPossibleException e){
         return templateExceptionMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(OrderErrorException.class)
+    public ResponseEntity<ExceptionTemplate> handleOrderErrorException(OrderErrorException e){
+        return templateExceptionMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

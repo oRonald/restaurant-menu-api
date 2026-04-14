@@ -34,5 +34,5 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 
     boolean existsByOrderId(String orderId);
 
-    Orders findByOrderId(String orderId);
+    boolean existsByOrderIdAndStatus(String orderId, OrderStatus status);
 }
