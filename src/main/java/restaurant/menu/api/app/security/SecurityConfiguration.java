@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.CustomAccessDeniedHandler;
 import restaurant.menu.api.app.security.filters.ApiKeyFilter;
 import restaurant.menu.api.app.security.filters.JwtFilter;
 
@@ -41,6 +42,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/public/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(e -> e.accessDeniedHandler(new CustomAccessDeniedHandler()))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
