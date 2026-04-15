@@ -3,9 +3,11 @@ package restaurant.menu.api.app.domain.database.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import restaurant.menu.api.app.domain.dto.AddMenuItemRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -41,5 +43,13 @@ public class Menu {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Menu(AddMenuItemRequest item){
+        this.name = item.name();
+        this.description = item.description();
+        this.price = item.price();
+        this.category = item.category();
+        this.orderItems = new ArrayList<>();
     }
 }

@@ -10,4 +10,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     @Query("SELECT m FROM Menu m WHERE m.name LIKE %:name% AND m.active = true")
     Optional<Menu> searchByName(String name);
+
+    boolean existsByName(String name);
 }

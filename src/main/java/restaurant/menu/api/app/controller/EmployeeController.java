@@ -1,5 +1,6 @@
 package restaurant.menu.api.app.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,13 @@ public class EmployeeController {
     public ResponseEntity<Void> registerNewEmployee(@RequestBody RegisterEmployeeRequest request) {
         service.registerNewEmployee(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/menu-item")
+    @PreAuthorize("hasRole('MANAGER')")
+    public ResponseEntity<ItemsDetails> addMenuItem(@RequestBody @Valid AddMenuItemRequest request){
+        var item = menuService.addMenuItem(request);
+        return ResponseEntity.ok(item);
     }
 
     @PostMapping("/login")
