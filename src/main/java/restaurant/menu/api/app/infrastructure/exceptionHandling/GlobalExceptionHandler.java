@@ -2,6 +2,7 @@ package restaurant.menu.api.app.infrastructure.exceptionHandling;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.*;
@@ -58,5 +59,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MenuItemException.class)
     public ResponseEntity<ExceptionTemplate> handleMenuItemException(MenuItemException e){
         return templateExceptionMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex){
+        var errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(error -> "Atributo: '" + error.getField() + "' " + error.getDefaultMessage())
+                .toList();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 }
