@@ -32,7 +32,7 @@ public class PublicService {
     private final OrderProducer orderProducer;
 
     @Transactional
-    public OrderDetails createOrder(@Valid OrderRequest request){
+    public OrderDetails createOrder(OrderRequest request){
         Menu menu = menuRepository.searchByName(request.menuItem()).orElseThrow(() -> new DishNotFoundException("O prato solicitado não foi encontrado no menu. Por favor, verifique o nome do prato e tente novamente."));
         Orders orderExisting = orderRepository.findByTableNumber(request.tableNumber());
 

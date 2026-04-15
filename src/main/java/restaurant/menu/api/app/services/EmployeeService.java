@@ -27,14 +27,14 @@ public class EmployeeService {
     private final AuthenticationManager manager;
 
     @Transactional
-    public void registerNewEmployee(@Valid RegisterEmployeeRequest request) {
+    public void registerNewEmployee(RegisterEmployeeRequest request) {
         EmployeeRole.deString(request.role());
 
         Employees employee = new Employees(request, encoder.encode(request.password()));
         repository.save(employee);
     }
 
-    public String loginEmployee(@Valid LoginEmployee login) {
+    public String loginEmployee(LoginEmployee login) {
         var authToken = new UsernamePasswordAuthenticationToken(
                 login.username(),
                 login.password()

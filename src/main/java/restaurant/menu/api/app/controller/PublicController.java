@@ -1,8 +1,10 @@
 package restaurant.menu.api.app.controller;
 
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import restaurant.menu.api.app.domain.dto.ActiveOrders;
 import restaurant.menu.api.app.domain.dto.ItemsDetails;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/public")
+@Validated
 public class PublicController {
 
     private final PublicService service;
@@ -24,7 +27,7 @@ public class PublicController {
     }
 
     @PostMapping("/orders")
-    public ResponseEntity<OrderDetails> createOrder(@RequestBody OrderRequest request) {
+    public ResponseEntity<OrderDetails> createOrder(@RequestBody @Valid OrderRequest request) {
         var orderDetails = service.createOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(orderDetails);
     }

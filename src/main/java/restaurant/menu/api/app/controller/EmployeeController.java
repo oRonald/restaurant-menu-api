@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import restaurant.menu.api.app.domain.dto.*;
 import restaurant.menu.api.app.services.EmployeeService;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
+@Validated
 public class EmployeeController {
 
     private final EmployeeService service;
@@ -27,7 +29,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/admin/register")
-    public ResponseEntity<Void> registerNewEmployee(@RequestBody RegisterEmployeeRequest request) {
+    public ResponseEntity<Void> registerNewEmployee(@RequestBody @Valid RegisterEmployeeRequest request) {
         service.registerNewEmployee(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -40,7 +42,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenJWT> loginEmployee(@RequestBody LoginEmployee login){
+    public ResponseEntity<TokenJWT> loginEmployee(@RequestBody @Valid LoginEmployee login){
         var token = service.loginEmployee(login);
         return ResponseEntity.ok(new TokenJWT(token));
     }
