@@ -3,6 +3,8 @@ package restaurant.menu.api.app.services;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import restaurant.menu.api.app.domain.database.entities.Menu;
 import restaurant.menu.api.app.domain.database.entities.OrderItems;
@@ -23,6 +25,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PublicService {
@@ -80,6 +83,7 @@ public class PublicService {
         return new OrderDetails(order, serviceCharge);
     }
 
+    @Cacheable(value = "menu", key = "'all'")
     public List<ItemsDetails> getAllMenuItems(){
         List<Menu> menuItems = menuRepository.findAll();
         return menuItems.stream().map(ItemsDetails::new).toList();
