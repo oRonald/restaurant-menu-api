@@ -2,11 +2,13 @@ package restaurant.menu.api.app.controller.interfaces;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import restaurant.menu.api.app.domain.dto.*;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.ExceptionTemplate;
-import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.OrderNotFoundException;
 
 import java.util.List;
 
@@ -22,12 +23,27 @@ public interface IEmployeeController {
 
     @Operation(
             summary = "Register a new employee",
-            description = "Allows to register a new employee in the system using a secret master key admin."
+            description = "Allows to register a new employee in the system using a secret master key admin. Roles that can be assigned are: MANAGER, CHEF, WAITER."
+    )
+    @Parameter(
+            name = "X-API-KEY",
+            description = "Secret key required for employee registration",
+            required = true,
+            in = ParameterIn.HEADER
     )
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Employee registered successfully",
             content = @Content(
                     mediaType = "application/json"
+            )),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid or missing master key",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            name = "Unauthorized",
+                            summary = "Invalid or missing master key provided for registration",
+                            value = "Unauthorized: Invalid API Key"
+                    )
             )),
             @ApiResponse(responseCode = "404", description = "Role not found",
             content = @Content(
@@ -84,6 +100,7 @@ public interface IEmployeeController {
                     required = true
             ) @RequestBody @Valid RegisterEmployeeRequest request);
 
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(
             summary = "Add a new menu item",
             description = "Allows a manager to add a new item to the restaurant menu."
@@ -197,6 +214,7 @@ public interface IEmployeeController {
                     required = true
             ) @RequestBody @Valid LoginEmployee login);
 
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(
             summary = "Get all active orders",
             description = "Allows employees to view all active orders in the system."
@@ -236,6 +254,7 @@ public interface IEmployeeController {
     })
     ResponseEntity<List<ActiveOrders>> getAllActiveOrders();
 
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(
             summary = "Change order status to ready",
             description = "Allows chefs and managers to change the status of an order to 'ready' when it is prepared."
@@ -267,6 +286,7 @@ public interface IEmployeeController {
                     example = "123"
             ) @PathVariable String orderId);
 
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(
             summary = "Cancel an order",
             description = "Allows managers to cancel an order that is not yet ready or delivered."
@@ -315,6 +335,7 @@ public interface IEmployeeController {
                    example = "123"
            ) @PathVariable String orderId);
 
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(
             summary = "Mark an order as delivered",
             description = "Allows waiters and managers to mark an order as delivered when it has been served to the customer.")
@@ -362,6 +383,7 @@ public interface IEmployeeController {
                     example = "123"
             ) @PathVariable String orderId);
 
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(
             summary = "Disable a menu item",
             description = "Allows managers to disable a menu item, making it unavailable for ordering."
