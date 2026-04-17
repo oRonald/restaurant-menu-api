@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import restaurant.menu.api.app.controller.interfaces.IEmployeeController;
 import restaurant.menu.api.app.domain.dto.*;
 import restaurant.menu.api.app.services.EmployeeService;
 import restaurant.menu.api.app.services.MenuService;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/employees")
 @Validated
-public class EmployeeController {
+public class EmployeeController implements IEmployeeController {
 
     private final EmployeeService service;
     private final OrdersService ordersService;
