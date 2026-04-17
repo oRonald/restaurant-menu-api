@@ -1,9 +1,6 @@
 package restaurant.menu.api.app.domain.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
@@ -24,7 +21,7 @@ public record OrderRequest(
         @Min(1)
         Integer quantity,
 
-        @Positive
+        @PositiveOrZero
         BigDecimal tip
 ) {
 }
