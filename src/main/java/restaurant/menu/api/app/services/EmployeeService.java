@@ -14,6 +14,7 @@ import restaurant.menu.api.app.domain.database.entities.enums.EmployeeRole;
 import restaurant.menu.api.app.domain.database.repositories.EmployeeRepository;
 import restaurant.menu.api.app.domain.dto.LoginEmployee;
 import restaurant.menu.api.app.domain.dto.RegisterEmployeeRequest;
+import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.EmployeeExistsException;
 import restaurant.menu.api.app.infrastructure.exceptionHandling.exceptions.RoleNotFoundException;
 import restaurant.menu.api.app.security.JWTImplementation;
 
@@ -28,6 +29,10 @@ public class EmployeeService {
 
     @Transactional
     public void registerNewEmployee(RegisterEmployeeRequest request) {
+        if(repository.existsByUsername(request.username())){
+            throw new EmployeeExistsException("An employee with this username already exists: " + request.username());
+        }
+
         EmployeeRole.deString(request.role());
 
         Employees employee = new Employees(request, encoder.encode(request.password()));

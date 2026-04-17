@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
         return templateExceptionMessage(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(EmployeeExistsException.class)
+    public ResponseEntity<ExceptionTemplate> handleEmployeeExists(EmployeeExistsException ex){
+        return templateExceptionMessage(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ExistingTableOrderException.class)
     public ResponseEntity<ExceptionTemplate> handleExistingTableOrderException(ExistingTableOrderException ex){
         return templateExceptionMessage(ex.getMessage(), HttpStatus.CONFLICT);
