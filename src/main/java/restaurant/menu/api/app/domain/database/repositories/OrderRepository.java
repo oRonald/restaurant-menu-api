@@ -14,7 +14,7 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Orders o SET o.status = 'IN_PROGRESS' WHERE o.orderId = :orderId")
+    @Query("UPDATE Orders o SET o.status = 'IN_PROGRESS' WHERE o.orderId = :orderId AND o.status = 'PENDING'")
     void updateOrderStatus(String orderId);
 
     @Transactional
