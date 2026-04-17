@@ -36,3 +36,9 @@ api:
   security:
     jwt:
       secret: ${TOKEN_SECRET}
+
+springdoc:
+  swagger-ui:
+    path: /api/docs
+  api-docs:
+    path: /api/docs/v3
