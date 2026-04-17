@@ -56,8 +56,7 @@ public class Orders {
     public Orders(OrderRequest request){
         this.tableNumber = request.tableNumber();
         this.customerName = request.customerName();
-        int random = (int) (Math.random() * 900) + 100;
-        this.orderId = String.valueOf(tableNumber + random);
+        this.orderId = "ORD-" + String.format("%03d", tableNumber);
         this.status = OrderStatus.PENDING;
         this.quantity = request.quantity();
         this.tip = request.tip();
