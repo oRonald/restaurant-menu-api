@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PublicService {

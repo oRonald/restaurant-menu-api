@@ -29,7 +29,6 @@ public class MenuService {
 
     @Transactional
     public ItemsDetails addMenuItem(AddMenuItemRequest request) {
-        System.out.println(request.name());
         if(repository.existsByName(request.name())){
             throw new MenuItemException("Já existe um item com esse nome");
         }
