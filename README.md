@@ -74,13 +74,6 @@ enquanto o consumidor lida com a validação e a mudança de estado de forma ind
 Também facilita a adição posterior de outros consumidores (por exemplo, serviço de notificação, 
 sistema de exibição na cozinha) sem modificar a lógica de criação do pedido.
 
-<strong>Por que Monolito?</strong>
-
-O domínio é coeso. Um monolito reduz significativamente a complexidade operacional — 
-unidade de implantação única, sem redes entre serviços, desenvolvimento local mais simples. 
-O Kafka é usado seletivamente para o fluxo específico que realmente se beneficia do 
-processamento assíncrono, e não como uma camada de comunicação geral.
-
 <strong>Por que o Redis apenas para o Cardápio?</strong>
 
 Os dados do cardápio têm uma alta taxa de leitura em relação à gravação e são compartilhados 
@@ -117,20 +110,20 @@ src/
 └── main/
     └── java/
         └── restaurant.Cardápio.api.app/
-            ├── controller/               # REST controllers
-            ├── domain/                   # Core domain
-            │   ├── dto/                  # Request/Response DTOs
+            ├── controller/               # REST controladores
+            ├── domain/                   # Domínio
+            │   ├── dto/                  # DTOs
             │   └── database/
-            │       ├── entities/         # JPA entities (Order, CardápioItem, OrderItem, Employee)
-            │       └── repositories/     # JPA repositories
-            ├── service/                  # Business logic
-            ├── security/                 # Spring Security config
-            │   └── filters/              # JWT and security filters
+            │       ├── entities/         # Entidades JPA (Orders, OrderItem, Menu, Employee)
+            │       └── repositories/     # Repositórios JPA
+            ├── service/                  # Camada de Lógica de Negócio
+            ├── security/                 # Configurações Spring Security
+            │   └── filters/              # JWT e filtros de segurança
             └── infrastructure/
                 ├── docs/
-                │   └── openapi/          # Swagger / OpenAPI config
-                ├── exceptionHandling/    # Global exception handler
-                │   └── exceptions/       # Custom exception classes
-                ├── kafka/                # Kafka producer, consumer and config
-                └── redis/                # Redis config and cache setup
+                │   └── openapi/          # Configurações Swagger / OpenAPI 
+                ├── exceptionHandling/    # Tratamento de Exceção
+                │   └── exceptions/       # Classes de Exceção Personalizadas
+                ├── kafka/                # Classes Kafka
+                └── redis/                # Configuração de setup e cache do Redis
 ```           
